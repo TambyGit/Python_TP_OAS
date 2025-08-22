@@ -2,3 +2,15 @@ openapi: 3.0.3
 info:
   title: My POST API
   version: 99.99.0
+  servers:
+paths:
+  /ping:
+    get:
+      responses:
+        200:
+          description: pong
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: pong
