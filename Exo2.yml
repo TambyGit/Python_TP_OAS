@@ -50,3 +50,15 @@ paths:
                     - id
                     - name
                     - email
+        '400':
+          description: Mauvais types de paramètres fournis
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Bad types for provided query parameters
+                required:
+                  - error           
