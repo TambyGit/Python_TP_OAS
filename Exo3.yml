@@ -1,0 +1,112 @@
+openapi: 3.0.3
+info:
+  title: API de Gestion de Tâches
+  version: 1.0.0
+servers:
+  - url: http://api.example.com/v1
+    description: Serveur principal
+paths:
+  /tasks:
+    get:
+      summary: Récupère la liste de toutes les tâches
+      description: Retourne une liste de toutes les tâches disponibles
+      operationId: getTasks
+      responses:
+        '200':
+          description: Liste des tâches récupérée avec succès
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Task'
+    post:
+      summary: Crée une ou plusieurs nouvelles tâches
+      description: Crée des tâches à partir du corps de la requête et retourne la liste créée
+      operationId: createTasks
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Task'
+      responses:
+        '201':
+          description: Tâches créées avec succès
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Task'
+    delete:
+      summary: Supprime une liste de tâches par leurs identifiants
+      description: Supprime les tâches correspondant aux IDs fournis et retourne la liste supprimée
+      operationId: deleteTasks
+      parameters:
+        - name: ids
+          in: query
+          description: Liste d'IDs des tâches à supprimer (séparés par des virgules)
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Tâches supprimées avec succès
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Task'
+  /tasks/{id}:
+    get:
+      summary: Récupère une tâche spécifique par son ID
+      description: Retourne la tâche correspondant à l'ID fourni
+      operationId: getTaskById
+      parameters:
+        - name: id
+          in: path
+          description: ID de la tâche à récupérer
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Tâche récupérée avec succès
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+        '404':
+          description: Tâche non trouvée
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Task not found
+                required:
+                  - message
+    delete:
+      summary: Supprime une tâche spécifique par son ID
+      description: Supprime la tâche correspondant à l'ID fourni et retourne la tâche supprimée
+      operationId: deleteTaskById
+      parameters:
+        - name: id
+          in: path
+          description: ID de la tâche à supprimer
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Tâche supprimée avec succès
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task' 
