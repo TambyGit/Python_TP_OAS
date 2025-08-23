@@ -1,8 +1,7 @@
 openapi: 3.0.3
 info:
   title: My POST API
-  version: 99.99.0
-  servers:
+  version: 1.0.0
 paths:
   /ping:
     get:
