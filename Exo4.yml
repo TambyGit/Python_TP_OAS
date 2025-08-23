@@ -1,0 +1,81 @@
+openapi: 3.0.3
+info:
+  title: API de Recherche de Produits
+  description: API pour rechercher des produits avec pagination et terme de recherche
+  version: 1.0.0
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Nom du produit
+          example: Pomme
+        expiration_datetime:
+          type: string
+          format: date-time
+          description: Date et heure d'expiration du produit
+        price:
+          type: number
+          format: float
+          description: Prix du produit
+          example: 1.99
+      required:
+        - name
+        - expiration_datetime
+        - price
+  parameters:
+    LimitParam:
+      name: limit
+      in: query
+      description: Nombre maximum de produits à retourner
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 20
+      example: 10
+    SearchQueryParam:
+      name: q
+      in: query
+      description: Terme de recherche pour filtrer les produits
+      required: false
+      schema:
+        type: string
+      example: pomme
+paths:
+  /products:
+    get:
+      summary: Recherche une liste de produits
+      description: Récupère une liste de produits avec pagination et recherche par terme
+      operationId: getProducts
+      parameters:
+        - $ref: '#/components/parameters/LimitParam'
+        - $ref: '#/components/parameters/SearchQueryParam'
+      responses:
+        '200':
+          description: Liste des produits récupérée avec succès
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+              examples:
+                multipleProducts:
+                  summary: Liste avec plusieurs produits
+                  value:
+                    - name: Pomme
+                      expiration_datetime: 2025-12-31T23:59:59Z
+                      price: 1.99
+                    - name: Banane
+                      expiration_datetime: 2025-11-30T23:59:59Z
+                      price: 2.49
+                    - name: Orange
+                      expiration_datetime: 2026-01-15T23:59:59Z
+                      price: 1.79
+                emptyList:
+                  summary: Liste vide
+                  value: []
