@@ -155,3 +155,53 @@ paths:
                 emptyList:
                   summary: Liste vide
                   value: []
+    post:
+      tags:
+        - Orders
+      summary: Crée une nouvelle commande
+      description: Crée une nouvelle commande, protégée par authentification basique
+      operationId: createOrder
+      security:
+        - BasicAuth: []
+      requestBody:
+        description: Détails de la commande à créer
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Order'
+            examples:
+              newOrder:
+                summary: Exemple de création de commande
+                value:
+                  identifier: 103
+                  customer_name: Claire Dubois
+                  creation_datetime: 2025-08-22T14:00:00Z
+                  total_amount: 30.75
+      responses:
+        '201':
+          description: Commande créée avec succès
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+              examples:
+                createdOrder:
+                  summary: Commande créée
+                  value:
+                    identifier: 103
+                    customer_name: Claire Dubois
+                    creation_datetime: 2025-08-22T14:00:00Z
+                    total_amount: 30.75
+        '401':
+          description: Non autorisé - Authentification requise
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Unauthorized
+                required:
+                  - error
