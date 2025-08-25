@@ -53,3 +53,42 @@ components:
         - creation_datetime
         - total_amount
 paths:
+  /products:
+    get:
+      tags:
+        - Products
+      summary: Recherche une liste de produits
+      description: Récupère une liste de produits avec pagination et recherche par terme
+      operationId: getProducts
+      parameters:
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/SizeParam'
+        - name: q
+          in: query
+          description: Terme de recherche pour filtrer les produits
+          required: false
+          schema:
+            type: string
+          example: pomme
+      responses:
+        '200':
+          description: Liste des produits récupérée avec succès
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+              examples:
+                multipleProducts:
+                  summary: Liste avec plusieurs produits
+                  value:
+                    - name: Pomme
+                      expiration_datetime: 2025-12-31T23:59:59Z
+                      price: 1.99
+                    - name: Banane
+                      expiration_datetime: 2025-11-30T23:59:59Z
+                      price: 2.49
+                emptyList:
+                  summary: Liste vide
+                  value: []
