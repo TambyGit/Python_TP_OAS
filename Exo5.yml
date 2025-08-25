@@ -1,0 +1,55 @@
+openapi: 3.0.3
+info:
+  title: API de Gestion de Produits et Commandes
+  description: API pour gérer les produits et les commandes avec pagination et authentification
+  version: 1.0.0
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Nom du produit
+          example: Pomme
+        expiration_datetime:
+          type: string
+          format: date-time
+          description: Date et heure d'expiration du produit
+          example: 2025-12-31T23:59:59Z
+        price:
+          type: number
+          format: float
+          description: Prix du produit
+          example: 1.99
+      required:
+        - name
+        - expiration_datetime
+        - price
+    Order:
+      type: object
+      properties:
+        identifier:
+          type: integer
+          description: Identifiant unique de la commande
+          example: 101
+        customer_name:
+          type: string
+          description: Nom du client
+          example: Alice Dupont
+        creation_datetime:
+          type: string
+          format: date-time
+          description: Date et heure de création de la commande
+          example: 2025-08-22T12:30:00Z
+        total_amount:
+          type: number
+          format: float
+          description: Montant total de la commande
+          example: 25.47
+      required:
+        - identifier
+        - customer_name
+        - creation_datetime
+        - total_amount
+paths:
